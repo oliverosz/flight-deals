@@ -105,25 +105,24 @@ if not destinations:
 if invalid_data:
     st.stop()
 
+progr_text = "Finding best fares..."
+progr = st.progress(0, progr_text)
+best_flights = []
+for i, destination in enumerate(destinations):
+    flights_df = wz.find_flights(
+        start_place, destination, *date_range, two_way, min_nights, max_nights
+    )
+    progr.progress((i + 1) / len(destinations), progr_text)
+    if not flights_df.empty:
+        min_price_flight = flights_df.loc[flights_df["Price"].idxmin()]
+        min_price_flight["Destination"] = destination
+        best_flights.append(min_price_flight)
+progr.empty()
 
 best, *details = st.tabs(["Best"] + destinations)
 
 with best:
     best.subheader("Best flights to all destinations")
-    best_flights = []
-    progr_text = "Finding best fares..."
-    progr = best.progress(0, progr_text)
-    for i, destination in enumerate(destinations):
-        flights_df = wz.find_flights(
-            start_place, destination, *date_range, two_way, min_nights, max_nights
-        )
-        progr.progress((i + 1) / len(destinations), progr_text)
-        if not flights_df.empty:
-            min_price_flight = flights_df.loc[flights_df["Price"].idxmin()]
-            min_price_flight["Destination"] = destination
-            best_flights.append(min_price_flight)
-    progr.empty()
-
     if best_flights:
         best_flights_df = pd.DataFrame(best_flights)
         best_flights_df.sort_values(by="Price", inplace=True, ignore_index=True)
