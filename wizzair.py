@@ -6,7 +6,7 @@ import requests
 import streamlit as st
 
 # TODO dynamically update version from website
-API_URL = "https://be.wizzair.com/26.8.0/Api/"
+API_URL = "https://be.wizzair.com/26.9.0/Api/"
 
 HEADERS = {
     "accept": "application/json, text/plain, */*",
@@ -102,7 +102,7 @@ def find_flights(
                             "Departure (Return)": pd.to_datetime(
                                 ret["departureDates"][-1]
                             ),
-                            "Book": f"https://wizzair.com/en-gb/booking/select-flight/{departure}/{destination}/{out['departureDates'][0].split("T")[0]}/{ret['departureDates'][-1].split("T")[0]}/1/0/0",
+                            "Book": f"https://wizzair.com/en-gb/booking/select-flight/{departure}/{destination}/{out['departureDates'][0].split('T')[0]}/{ret['departureDates'][-1].split('T')[0]}/1/0/0",
                         }
                     )
         flights = pd.DataFrame(trips)
@@ -112,7 +112,7 @@ def find_flights(
                 {
                     "Price": out["price"],
                     "Departure": pd.to_datetime(out["departureDates"][0]),
-                    "Book": f"https://wizzair.com/en-gb/booking/select-flight/{departure}/{destination}/{out['departureDates'][0].split("T")[0]}/null/1/0/0",
+                    "Book": f"https://wizzair.com/en-gb/booking/select-flight/{departure}/{destination}/{out['departureDates'][0].split('T')[0]}/null/1/0/0",
                 }
                 for i, out in outbound.iterrows()
             ]
