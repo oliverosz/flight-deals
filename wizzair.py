@@ -6,7 +6,7 @@ import requests
 import streamlit as st
 
 # TODO dynamically update version from website
-API_URL = "https://be.wizzair.com/26.4.0/Api/"
+API_URL = "https://be.wizzair.com/26.8.0/Api/"
 
 HEADERS = {
     "accept": "application/json, text/plain, */*",
